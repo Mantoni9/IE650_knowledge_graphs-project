@@ -1,6 +1,5 @@
 package org.ie650;
 
-import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryFactory;
@@ -10,8 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class QueryBuilder {
-
-    public static String endpoint = "http://dbpedia.org/sparql";
     private Set<String> vars;
     private Set<String> restrictions;
     private String orderBy;
@@ -51,6 +48,7 @@ public class QueryBuilder {
     public Query build() {
         StringBuilder query = new StringBuilder();
         query.append("PREFIX dbo: <http://dbpedia.org/ontology/> ");
+        query.append("PREFIX dbp: <http://dbpedia.org/property/> ");
         query.append("SELECT ");
         for(var var : vars) {
             query.append(String.format("?%s ", var));
@@ -67,9 +65,5 @@ public class QueryBuilder {
         query.append(" LIMIT ");
         query.append(this.limit);
         return QueryFactory.create(query.toString());
-    }
-
-    public static QueryExecution executeQuery(Query query) {
-        return QueryExecutionHTTPBuilder.service(endpoint).query(query).build();
     }
 }

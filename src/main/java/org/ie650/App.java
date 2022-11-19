@@ -1,20 +1,17 @@
 package org.ie650;
 
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.ie650.queries.BookQuery;
+import org.ie650.queryresults.Book;
+
+import java.util.List;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        QueryBuilder builder = new QueryBuilder();
-        String books = "books";
-        Query q = builder.select(books).where(books, "a", "dbo:Book").build();
-        try (QueryExecution qe = QueryBuilder.executeQuery(q)) {
-            ResultSet results = qe.execSelect();
-            ResultSetFormatter.out(System.out, results, qe.getQuery()) ;
+        List<Book> result = new BookQuery(100).execute();
+        for(Book x : result) {
+            System.out.println(x.getName().getString() + " " + x.getPages() + " " + x.getAuthor().toString());
         }
     }
 }
