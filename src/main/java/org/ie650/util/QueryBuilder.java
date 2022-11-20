@@ -1,9 +1,7 @@
-package org.ie650;
+package org.ie650.util;
 
 import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryFactory;
-import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
 
 import java.util.HashSet;
 import java.util.Set;

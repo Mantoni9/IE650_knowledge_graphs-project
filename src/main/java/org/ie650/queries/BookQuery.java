@@ -11,9 +11,14 @@ import java.nio.file.Paths;
 
 public class BookQuery extends AppQuery<Book> {
 
-    public BookQuery(int limit) throws IOException {
-        URI uri = URI.create(getClass().getResource("/queries/book_query.rs").toString());
-        String query = String.join(" ", Files.readAllLines(Paths.get(uri)));
+    public BookQuery(int limit) {
+        String query = "";
+        try {
+            URI uri = URI.create(getClass().getResource("/queries/book_query.rs").toString());
+            query = String.join(" ", Files.readAllLines(Paths.get(uri)));
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
         query = query
                 .replaceAll("\\$BOOK_NAME", Book.NAME)
                 .replaceAll("\\$BOOK_AUTHOR", Book.AUTHOR)
