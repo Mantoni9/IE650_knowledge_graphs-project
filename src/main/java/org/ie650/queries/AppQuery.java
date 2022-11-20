@@ -1,9 +1,6 @@
 package org.ie650.queries;
 
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
 import org.ie650.queryresults.QueryResult;
 
@@ -19,6 +16,7 @@ public abstract class AppQuery<T extends QueryResult> {
         List<T> result = new ArrayList<>();
         try (QueryExecution qe = QueryExecutionHTTPBuilder.service(endpoint).query(query).build()) {
             ResultSet rs = qe.execSelect();
+            ResultSetFormatter.out(System.out, rs, query) ;
             while(rs.hasNext()) {
                 QuerySolution sol = rs.nextSolution() ;
                 result.add(create(sol));

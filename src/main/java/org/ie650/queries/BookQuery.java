@@ -1,24 +1,30 @@
 package org.ie650.queries;
 
+import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.QuerySolution;
-import org.ie650.QueryBuilder;
 import org.ie650.queryresults.Book;
+
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class BookQuery extends AppQuery<Book> {
 
-    public BookQuery(int limit) {
-        String book = "?book";
-        QueryBuilder builder = new QueryBuilder();
-        builder
-                .select(Book.NAME)
-                .select(Book.PAGES)
-                .select(Book.AUTHOR)
-                .where(book, "a", "dbo:Book")
-                .where(book, "dbp:name", Book.NAME)
-                .where(book, "dbp:pages", Book.PAGES)
-                .where(book, "dbp:author", Book.AUTHOR)
-                .limit(limit);
-        this.query = builder.build();
+    public BookQuery(int limit) throws IOException {
+        URI uri = URI.create(getClass().getResource("/queries/book_query.rs").toString());
+        String query = String.join(" ", Files.readAllLines(Paths.get(uri)));
+        query = query
+                .replaceAll("\\$BOOK_NAME", Book.NAME)
+                .replaceAll("\\$BOOK_AUTHOR", Book.AUTHOR)
+                .replaceAll("\\$BOOK_PAGES", Book.PAGES)
+                .replaceAll("\\$LIMIT", "" + limit);
+        ParameterizedSparqlString pss = new ParameterizedSparqlString();
+        pss.setCommandText(query);
+        pss.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+        pss.setNsPrefix("dbo", "http://dbpedia.org/ontology/");
+        pss.setNsPrefix("dbp", "http://dbpedia.org/property/");
+        this.query = pss.asQuery();
     }
 
     @Override
