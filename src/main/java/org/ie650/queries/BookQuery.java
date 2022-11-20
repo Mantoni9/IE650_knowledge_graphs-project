@@ -17,7 +17,7 @@ public class BookQuery extends AppQuery<Book> {
         query = query
                 .replaceAll("\\$BOOK_NAME", Book.NAME)
                 .replaceAll("\\$BOOK_AUTHOR", Book.AUTHOR)
-                .replaceAll("\\$BOOK_PAGES", Book.PAGES)
+                .replaceAll("\\$BOOK_DATE", Book.DATE)
                 .replaceAll("\\$LIMIT", "" + limit);
         ParameterizedSparqlString pss = new ParameterizedSparqlString();
         pss.setCommandText(query);

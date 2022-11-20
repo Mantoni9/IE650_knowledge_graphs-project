@@ -14,7 +14,7 @@ public class App
         try {
             List<Book> results = new BookQuery(1000).execute();
             for(Book b : results) {
-                System.out.println(b.getName() + " " + b.getAuthor());
+                System.out.println(b.getName() + " " + b.getAuthor() + " " + b.getDate());
             }
         } catch (IOException e) {
             System.out.println(e);
