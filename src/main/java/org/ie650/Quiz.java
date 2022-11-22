@@ -29,8 +29,16 @@ public class Quiz {
     }
 
     public void loop() {
-        //while(true) {
+        while(true) {
             Question q = this.factory.createQuestion();
-        //}
+            textIO.getTextTerminal().println();
+            String answer = textIO.newStringInputReader().withNumberedPossibleValues(q.getPossibleAnswers())
+                    .read(q.getPrompt());
+            if(answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
+                textIO.getTextTerminal().println("Correct");
+            } else {
+                textIO.getTextTerminal().println("False");
+            }
+        }
     }
 }

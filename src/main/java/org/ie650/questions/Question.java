@@ -4,19 +4,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Question {
-    protected List<String> possibleAnswers;
-    protected int correctAnswer;
+    protected List<String> falseAnswers;
+    protected String correctAnswer;
+    protected int correctAnswerIndex;
 
     public Question() {
-        this.possibleAnswers = new LinkedList<>();
+        this.falseAnswers = new LinkedList<>();
     }
 
     public List<String> getPossibleAnswers() {
-        return this.possibleAnswers;
+        List<String> answers = new LinkedList<String>(this.falseAnswers);
+        answers.add(this.correctAnswerIndex, correctAnswer);
+        return answers;
     }
 
-    public int getCorrectAnswer() {
-        return this.correctAnswer;
+    public int getCorrectAnswerIndex() {
+        return this.correctAnswerIndex;
     }
+
+    public abstract String getPrompt();
 
 }
