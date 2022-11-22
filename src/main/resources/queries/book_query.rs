@@ -1,8 +1,8 @@
-SELECT ?$BOOK_AUTHOR ?$BOOK_NAME ?$BOOK_DATE
+SELECT ?book ?$BOOK_AUTHOR ?$AUTHOR_NAME ?$BOOK_NAME ?$BOOK_DATE
 WHERE
 {
   {
-    SELECT ?book (SAMPLE(?inner_author_name) AS ?$BOOK_AUTHOR) (SAMPLE(?inner_name) AS ?$BOOK_NAME) (SAMPLE(?inner_date) as ?$BOOK_DATE)
+    SELECT ?book (SAMPLE(?inner_author) AS ?$BOOK_AUTHOR) (SAMPLE(?inner_author_name) AS ?$AUTHOR_NAME) (SAMPLE(?inner_name) AS ?$BOOK_NAME) (SAMPLE(?inner_date) as ?$BOOK_DATE)
     WHERE
       { ?book a dbo:Book ;
           dbp:name ?inner_name ;

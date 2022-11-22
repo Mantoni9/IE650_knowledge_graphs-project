@@ -37,6 +37,6 @@ public class BookYearQuestion extends Question {
 
     @Override
     public String getPrompt() {
-        return String.format("What year was '%s' by '%s' released in?", book.getName(), book.getAuthor());
+        return String.format("What year was '%s' by '%s' released in?", book.getName(), book.getAuthorName());
     }
 }

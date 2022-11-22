@@ -1,0 +1,21 @@
+package org.ie650.queries;
+
+import org.apache.jena.query.QuerySolution;
+import org.ie650.queryresults.Author;
+
+public class BookAuthorQuery extends AppQuery<Author>{
+
+    public BookAuthorQuery(String uri) {
+        super();
+        addParameter("\\$TARGET", uri);
+        addParameter("\\$NAME", Author.NAME);
+        addParameter("\\$NATIONALITY", Author.NATIONALITY);
+        addParameter("\\$GENRE", Author.GENRE);
+        addParameter("\\$BIRTHDATE", Author.BIRTHDATE);
+        this.constructQuery("book_author_query");
+    }
+    @Override
+    protected Author create(QuerySolution qs) {
+        return new Author(qs);
+    }
+}
