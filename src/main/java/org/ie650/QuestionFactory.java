@@ -30,17 +30,17 @@ public class QuestionFactory {
     }
 
     public Question createRandomBookAction() {
-        int r = new Random().nextInt(2);
+        int r = new Random().nextInt(3);
         Book candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
-        while (true) {
+/*        while (true) {
             try {
                 return new BookCharacterQuestion(candidate, bookCandidates);
 
             } catch (QuestionException e) {
                 candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
             }
-        }
-/*        switch (r) {
+        }*/
+        switch (r) {
             case 0:
                 while (true) {
                     try {
@@ -51,9 +51,17 @@ public class QuestionFactory {
                 }
             case 1:
                 return new BookYearQuestion(candidate);
+            case 2:
+                while (true) {
+                    try {
+                        return new BookCharacterQuestion(candidate, bookCandidates);
+                    } catch (QuestionException e) {
+                        candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
+                    }
+                }
             default:
                 return null;
-        }*/
+        }
     }
 
 }
