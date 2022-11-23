@@ -7,6 +7,7 @@ public class BookQuery extends AppQuery<Book> {
 
     public BookQuery(int limit) {
         super();
+        addParameter("\\$URI", Book.URI);
         addParameter("\\$BOOK_NAME", Book.NAME);
         addParameter("\\$AUTHOR_NAME", Book.AUTHOR_NAME);
         addParameter("\\$BOOK_AUTHOR", Book.AUTHOR);

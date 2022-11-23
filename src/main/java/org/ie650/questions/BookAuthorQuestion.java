@@ -17,7 +17,7 @@ public class BookAuthorQuestion extends Question{
         this.correctAnswer = book.getAuthorName();
         List<Author> similarAuthors = new BookAuthorQuery(book.getAuthor()).execute();
         if(similarAuthors.size() == 0) {
-            throw new RuntimeException();
+            throw new QuestionException();
         }
         for(int i = 0; i<3; i++) {
             this.falseAnswers.add(similarAuthors.get(new Random().nextInt(similarAuthors.size())).getName());

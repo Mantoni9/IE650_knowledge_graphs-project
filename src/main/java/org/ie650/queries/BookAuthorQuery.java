@@ -9,9 +9,6 @@ public class BookAuthorQuery extends AppQuery<Author>{
         super();
         addParameter("\\$TARGET", uri);
         addParameter("\\$NAME", Author.NAME);
-        addParameter("\\$NATIONALITY", Author.NATIONALITY);
-        addParameter("\\$GENRE", Author.GENRE);
-        addParameter("\\$BIRTHDATE", Author.BIRTHDATE);
         this.constructQuery("book_author_query");
     }
     @Override

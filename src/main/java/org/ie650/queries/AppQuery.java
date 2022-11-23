@@ -16,7 +16,8 @@ import java.util.Map;
 
 public abstract class AppQuery<T extends QueryResult> {
 
-    public static String endpoint = "http://dbpedia.org/sparql";
+    public static String DBPEDIA_ENDPOINT = "http://dbpedia.org/sparql";
+    public static String WIKIDATA_ENDPOINT = "https://query.wikidata.org/sparql";
     protected Query query;
     private Map<String, String> parameters;
 
@@ -45,10 +46,12 @@ public abstract class AppQuery<T extends QueryResult> {
         pss.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
         pss.setNsPrefix("dbo", "http://dbpedia.org/ontology/");
         pss.setNsPrefix("dbp", "http://dbpedia.org/property/");
+        pss.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#");
+        pss.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
         this.query = pss.asQuery();
     }
 
-    public List<T> execute() {
+    public List<T> execute(String endpoint) {
         List<T> result = new ArrayList<>();
         try (QueryExecution qe = QueryExecutionHTTPBuilder.service(endpoint).sendMode(QuerySendMode.asGetAlways).query(query).build()) {
             ResultSet rs = qe.execSelect();
@@ -59,6 +62,10 @@ public abstract class AppQuery<T extends QueryResult> {
             }
         }
         return result;
+    }
+
+    public List<T> execute() {
+        return this.execute(DBPEDIA_ENDPOINT);
     }
 
     protected abstract T create(QuerySolution qs);
