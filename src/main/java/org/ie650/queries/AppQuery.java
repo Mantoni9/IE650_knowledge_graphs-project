@@ -54,8 +54,9 @@ public abstract class AppQuery<T extends QueryResult> {
     public List<T> execute(String endpoint) {
         List<T> result = new ArrayList<>();
         try (QueryExecution qe = QueryExecutionHTTPBuilder.service(endpoint).sendMode(QuerySendMode.asGetAlways).query(query).build()) {
-            ResultSet rs = qe.execSelect();
-            //ResultSetFormatter.out(System.out, rs, query) ;
+            ResultSetRewindable rs = ResultSetFactory.copyResults(qe.execSelect());
+            ResultSetFormatter.out(System.out, rs, query) ;
+            rs.reset();
             while(rs.hasNext()) {
                 QuerySolution sol = rs.nextSolution() ;
                 result.add(create(sol));

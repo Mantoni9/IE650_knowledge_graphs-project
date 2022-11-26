@@ -48,11 +48,15 @@ public class BookCharacterQuestion extends Question{
     @Override
     public String getPrompt() {
         String prompt = "";
-        for(String c : characters.subList(0, characters.size() - 1)) {
-            prompt += c + ", ";
+        if(this.characters.size() > 1) {
+            for (String c : characters.subList(0, characters.size() - 1)) {
+                prompt += c + ", ";
+            }
+            prompt += "and " + characters.get(characters.size() - 1);
+            prompt += " are characters in which book?";
+        } else {
+            prompt = String.format("%s is a character in which book?", characters.get(0));
         }
-        prompt += "and " + characters.get(characters.size()-1);
-        prompt += " are characters in which book?";
         return prompt;
     }
 }

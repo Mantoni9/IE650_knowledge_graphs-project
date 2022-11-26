@@ -16,7 +16,7 @@ public class QuestionFactory {
         this.topic = topic;
         switch (topic) {
             case BOOKS:
-                this.bookCandidates = new BookQuery(200).execute();
+                this.bookCandidates = new BookQuery(1000).execute();
         }
     }
 
@@ -34,7 +34,7 @@ public class QuestionFactory {
         Book candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
 /*        while (true) {
             try {
-                return new BookCharacterQuestion(candidate, bookCandidates);
+                return new BookAuthorQuestion(candidate);
 
             } catch (QuestionException e) {
                 candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));

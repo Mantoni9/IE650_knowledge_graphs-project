@@ -1,4 +1,4 @@
-SELECT ?$URI ?$BOOK_AUTHOR ?$AUTHOR_NAME ?$BOOK_NAME ?$BOOK_DATE
+SELECT ?$URI ?$BOOK_AUTHOR ?$AUTHOR_NAME ?$BOOK_NAME ?$BOOK_DATE ?countY ?maxY
 WHERE
 {
   {
@@ -26,6 +26,15 @@ WHERE
         }
        GROUP BY ?$URI
     }
+    {
+    SELECT ?$URI (COUNT(?y) as ?countY)
+      WHERE
+        {
+          ?$URI a dbo:Book .
+          ?$URI dbo:wikiPageWikiLink ?y .
+        }
+       GROUP BY ?$URI
+    }
 }
-ORDER BY DESC(?countX)
+ORDER BY DESC(?countX + ?countY)
 LIMIT $LIMIT

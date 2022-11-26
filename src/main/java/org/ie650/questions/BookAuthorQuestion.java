@@ -16,11 +16,11 @@ public class BookAuthorQuestion extends Question{
         this.correctAnswerIndex = new Random().nextInt(4);
         this.correctAnswer = book.getAuthorName();
         List<Author> similarAuthors = new BookAuthorQuery(book.getAuthor()).execute();
-        if(similarAuthors.size() == 0) {
+        if(similarAuthors.size() < 3) {
             throw new QuestionException();
         }
         for(int i = 0; i<3; i++) {
-            this.falseAnswers.add(similarAuthors.get(new Random().nextInt(similarAuthors.size())).getName());
+            this.falseAnswers.add(similarAuthors.get(i).getName());
         }
     }
     @Override
