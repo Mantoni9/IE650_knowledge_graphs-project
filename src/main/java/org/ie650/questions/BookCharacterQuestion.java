@@ -33,14 +33,14 @@ public class BookCharacterQuestion extends Question{
         for(QueryResult qr : results) {
             characters.add(qr.getQuerySolution().getLiteral("character").getString());
         }
-        this.correctAnswer = book.getName();
+        this.correctAnswer = String.format("%s by %s", book.getName(), book.getAuthorName());
         int i = 0;
         while(i < 3) {
             Book candidate = candidates.get(new Random().nextInt(candidates.size()));
             if(candidate == book) {
                 continue;
             } else {
-                falseAnswers.add(candidate.getName());
+                falseAnswers.add(String.format("%s by %s", candidate.getName(), candidate.getAuthorName()));
                 i++;
             }
         }
