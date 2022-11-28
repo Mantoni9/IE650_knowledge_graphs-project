@@ -24,4 +24,3 @@ WHERE {
     
     FILTER(<$TARGET> != ?author)
 }
-LIMIT 3

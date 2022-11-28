@@ -1,7 +1,9 @@
 package org.ie650;
 
 import org.ie650.queries.BookQuery;
+import org.ie650.queries.MovieQuery;
 import org.ie650.queryresults.Book;
+import org.ie650.queryresults.Movie;
 import org.ie650.questions.*;
 
 import java.util.List;
@@ -11,12 +13,15 @@ public class QuestionFactory {
 
     private Quiz.Topic topic;
     private List<Book> bookCandidates;
+    private List<Movie> movieCandidates;
 
     public void setTopic(Quiz.Topic topic) {
         this.topic = topic;
         switch (topic) {
             case BOOKS:
                 this.bookCandidates = new BookQuery(1000).execute();
+            case MOVIES:
+                this.movieCandidates = new MovieQuery(200).execute();
         }
     }
 
@@ -24,6 +29,8 @@ public class QuestionFactory {
         switch (topic) {
             case BOOKS:
                 return createRandomBookAction();
+            case MOVIES:
+                return createRandomMovieQuestion();
             default:
                 return null;
         }
@@ -59,6 +66,23 @@ public class QuestionFactory {
                         candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
                     }
                 }
+            default:
+                return null;
+        }
+    }
+
+    public Question createRandomMovieQuestion() {
+        int r = new Random().nextInt(2);
+        Movie candidate = movieCandidates.get(new Random().nextInt(movieCandidates.size()));
+        switch (r) {
+            case 0:
+                Movie candidateTwo = null;
+                while(candidateTwo == null || candidateTwo == candidate) {
+                    candidateTwo = movieCandidates.get(new Random().nextInt(movieCandidates.size()));
+                }
+                return new MovieGrossQuestion(candidate, candidateTwo);
+            case 1:
+                return new MovieDirectorQuestion(candidate, movieCandidates);
             default:
                 return null;
         }
