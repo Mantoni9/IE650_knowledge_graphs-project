@@ -13,7 +13,7 @@ public class BookYearQuestion extends Question {
     public BookYearQuestion(Book book) {
         this.book = book;
         this.correctAnswerIndex = new Random().nextInt(4);
-        this.correctAnswer = book.getDate().substring(0, 4);
+        this.correctAnswer = book.getReleaseYear();
         int diff = 0;
         for (int i = 0; i < 3; i++) {
             switch (i) {

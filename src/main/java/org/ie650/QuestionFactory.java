@@ -20,8 +20,10 @@ public class QuestionFactory {
         switch (topic) {
             case BOOKS:
                 this.bookCandidates = new BookQuery(1000).execute();
+                break;
             case MOVIES:
                 this.movieCandidates = new MovieQuery(200).execute();
+                break;
         }
     }
 
@@ -39,35 +41,21 @@ public class QuestionFactory {
     public Question createRandomBookAction() {
         int r = new Random().nextInt(3);
         Book candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
-/*        while (true) {
+        while (true) {
             try {
-                return new BookAuthorQuestion(candidate);
-
+                switch (r) {
+                    case 0:
+                        return new BookAuthorQuestion(candidate, bookCandidates);
+                    case 1:
+                        return new BookYearQuestion(candidate);
+                    case 2:
+                        return new BookCharacterQuestion(candidate, bookCandidates);
+                    default:
+                        return null;
+                }
             } catch (QuestionException e) {
                 candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
             }
-        }*/
-        switch (r) {
-            case 0:
-                while (true) {
-                    try {
-                        return new BookAuthorQuestion(candidate);
-                    } catch (QuestionException e) {
-                        candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
-                    }
-                }
-            case 1:
-                return new BookYearQuestion(candidate);
-            case 2:
-                while (true) {
-                    try {
-                        return new BookCharacterQuestion(candidate, bookCandidates);
-                    } catch (QuestionException e) {
-                        candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
-                    }
-                }
-            default:
-                return null;
         }
     }
 
@@ -77,7 +65,7 @@ public class QuestionFactory {
         switch (r) {
             case 0:
                 Movie candidateTwo = null;
-                while(candidateTwo == null || candidateTwo == candidate) {
+                while (candidateTwo == null || candidateTwo == candidate) {
                     candidateTwo = movieCandidates.get(new Random().nextInt(movieCandidates.size()));
                 }
                 return new MovieGrossQuestion(candidate, candidateTwo);

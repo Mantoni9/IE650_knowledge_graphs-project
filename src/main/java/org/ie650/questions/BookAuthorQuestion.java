@@ -11,16 +11,17 @@ public class BookAuthorQuestion extends Question{
 
     private Book book;
 
-    public BookAuthorQuestion(Book book) {
+    public BookAuthorQuestion(Book book, List<Book> candidates) {
         this.book = book;
         this.correctAnswerIndex = new Random().nextInt(4);
         this.correctAnswer = book.getAuthorName();
         List<Author> similarAuthors = new BookAuthorQuery(book.getAuthor()).execute();
-        if(similarAuthors.size() < 3) {
-            throw new QuestionException();
-        }
         for(int i = 0; i<3; i++) {
-            this.falseAnswers.add(similarAuthors.get(i).getName());
+            if(i < similarAuthors.size()) {
+                this.falseAnswers.add(similarAuthors.get(i).getName());
+            } else {
+                this.falseAnswers.add(candidates.get(new Random().nextInt(candidates.size())).getName());
+            }
         }
     }
     @Override

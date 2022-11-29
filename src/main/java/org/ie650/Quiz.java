@@ -21,9 +21,11 @@ public class Quiz {
     }
 
     public void start() {
+        textIO.getTextTerminal().setBookmark("empty");
         this.selectedTopic = textIO.newEnumInputReader(Quiz.Topic.class)
                 .withAllValuesNumbered()
                 .read("Select Topic: ");
+        textIO.getTextTerminal().resetToBookmark("empty");
         this.factory.setTopic(this.selectedTopic);
         loop();
     }

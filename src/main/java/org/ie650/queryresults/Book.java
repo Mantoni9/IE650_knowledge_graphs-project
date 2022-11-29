@@ -1,5 +1,6 @@
 package org.ie650.queryresults;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.QuerySolution;
 
 public class Book extends QueryResult {
@@ -28,7 +29,11 @@ public class Book extends QueryResult {
     public String getAuthor() {
         return this.sol.getResource(AUTHOR).getURI();
     }
-    public String getDate() {
-        return this.sol.getLiteral(DATE).getLexicalForm();
+    public String getReleaseYear() {
+        if(this.sol.getLiteral(DATE).getDatatype() == XSDDatatype.XSDdate) {
+            return this.sol.getLiteral(DATE).getString().substring(0,4);
+        } else {
+            return this.sol.getLiteral(DATE).getString();
+        }
     }
 }

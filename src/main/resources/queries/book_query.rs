@@ -5,11 +5,18 @@ WHERE
     SELECT ?$URI (SAMPLE(?inner_author) AS ?$BOOK_AUTHOR) (SAMPLE(?inner_author_name) AS ?$AUTHOR_NAME) (SAMPLE(?inner_name) AS ?$BOOK_NAME) (SAMPLE(?inner_date) as ?$BOOK_DATE)
     WHERE
       { ?$URI a dbo:Book ;
-          dbp:name ?inner_name ;
-          dbp:author ?inner_author .
-          ?inner_author dbp:name ?inner_author_name
+          dbp:name ?inner_name .
+
+          OPTIONAL { ?$URI dbp:author ?dbp_inner_author .
+          ?dbp_inner_author dbp:name ?dbp_inner_author_name . }
+          OPTIONAL { ?$URI dbo:author ?dbo_inner_author .
+          ?dbo_inner_author dbp:name ?dbo_inner_author_name . }
+          FILTER(bound(?dbp_inner_author) || bound(?dbo_inner_author))
+          bind(COALESCE(?dbp_inner_author, ?dbo_inner_author) AS ?inner_author)
+          bind(COALESCE(?dbp_inner_author_name, ?dbo_inner_author_name) AS ?inner_author_name)
+
           OPTIONAL { ?$URI dbp:publicationDate ?publicationDate . FILTER( isLiteral(?publicationDate) && datatype(?publicationDate) = xsd:date)}
-          OPTIONAL { ?$URI dbp:releaseDate ?releaseDate . FILTER( isLiteral(?releaseDate ) && datatype(?releaseDate ) = xsd:date)}
+          OPTIONAL { ?$URI dbp:releaseDate ?releaseDate . FILTER( isLiteral(?releaseDate ) && (datatype(?releaseDate ) = xsd:date) || (datatype(?releaseDate ) = xsd:integer))}
           OPTIONAL { ?$URI dbp:published ?published . FILTER( isLiteral(?published ) && datatype(?published ) = xsd:date)}
           OPTIONAL { ?$URI dbo:publicationDate ?dboPublicationDate . FILTER( isLiteral(?dboPublicationDate ) && datatype(?dboPublicationDate ) = xsd:date)}
           FILTER (bound(?releaseDate) || bound(?publicationDate) || bound(?published) || bound(?dboPublicationDate))
