@@ -49,6 +49,7 @@ public abstract class AppQuery<T extends QueryResult> {
         pss.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#");
         pss.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
         this.query = pss.asQuery();
+        System.out.println(this.query);
     }
 
     public List<T> execute(String endpoint) {

@@ -12,4 +12,8 @@ public class QueryResult {
     public QuerySolution getQuerySolution() {
         return this.sol;
     }
+
+    public String getName(String parameter) {
+        return this.sol.getLiteral(parameter).getLexicalForm();
+    }
 }

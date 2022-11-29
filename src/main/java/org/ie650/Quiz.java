@@ -26,14 +26,17 @@ public class Quiz {
                 .withAllValuesNumbered()
                 .read("Select Topic: ");
         textIO.getTextTerminal().resetToBookmark("empty");
+        textIO.getTextTerminal().print("Collecting candidates ...");
         this.factory.setTopic(this.selectedTopic);
         loop();
     }
 
     public void loop() {
         while(true) {
+            textIO.getTextTerminal().resetToBookmark("empty");
+            textIO.getTextTerminal().print("Generating question. This might take a while ...");
             Question q = this.factory.createQuestion();
-            textIO.getTextTerminal().println();
+            textIO.getTextTerminal().resetToBookmark("empty");
             String answer = textIO.newStringInputReader().withNumberedPossibleValues(q.getPossibleAnswers())
                     .read(q.getPrompt());
             if(answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
@@ -41,6 +44,8 @@ public class Quiz {
             } else {
                 textIO.getTextTerminal().println("False");
             }
+            textIO.getTextTerminal().print("\nPress Enter key to continue ...");
+            textIO.getTextTerminal().read(true);
         }
     }
 }
