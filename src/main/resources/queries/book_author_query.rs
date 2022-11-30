@@ -1,4 +1,4 @@
-SELECT DISTINCT ?$NAME
+SELECT DISTINCT ?author ?$NAME
 WHERE {
     ?work dbp:author ?author .
     ?author dbp:name ?$NAME .
@@ -8,13 +8,15 @@ WHERE {
     FILTER(ABS(year(?birthdate) - year(?target_birth)) < 20)
     FILTER(<$TARGET> != ?author)
 
-    OPTIONAL {<$TARGET> dbo:birthPlace ?target_birthplace .}
-    OPTIONAL {?target_birthplace dbo:country ?target_country .}
-    OPTIONAL {?author dbo:birthPlace ?birthplace .}
-    OPTIONAL {?birthplace dbo:country ?country .}
+    OPTIONAL {
+    <$TARGET> dbo:birthPlace ?target_birthplace .
+    ?target_birthplace dbo:country ?target_country .
+    ?author dbo:birthPlace ?birthplace .
+    ?birthplace dbo:country ?country .
+    }
 
-    OPTIONAL {?author dbp:nationality ?nationality .}
-    OPTIONAL {<$TARGET> dbp:nationality ?target_nationality .}
+    OPTIONAL {?author dbp:nationality ?nationality .
+    <$TARGET> dbp:nationality ?target_nationality .}
 
     BIND(IF(BOUND(?nationality) && BOUND(?target_nationality), 1, 0) AS ?use_nationality)
     BIND(IF(?use_nationality = 0 && BOUND(?country) && BOUND(?target_country), 1, 0) AS ?use_country)
