@@ -27,6 +27,6 @@ public class SongArtistQuestion extends Question {
 
     @Override
     public String getPrompt() {
-        return String.format("Who's the Artist of '%S'?", song.getName());
+        return String.format("Who's the Artist of '%s'?", song.getName());
     }
 }
