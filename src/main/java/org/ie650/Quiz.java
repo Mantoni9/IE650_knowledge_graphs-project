@@ -13,6 +13,12 @@ public class Quiz {
         GEOGRAPHY,
     }
 
+    private String ascii = " ____  __.________  ________        .__        \n" +
+            "|    |/ _/  _____/  \\_____  \\  __ __|__|_______\n" +
+            "|      </   \\  ___   /  / \\  \\|  |  \\  \\___   /\n" +
+            "|    |  \\    \\_\\  \\ /   \\_/.  \\  |  /  |/    / \n" +
+            "|____|__ \\______  / \\_____\\ \\_/____/|__/_____ \\\n" +
+            "        \\/      \\/         \\__>              \\/";
     private TextIO textIO;
     private QuestionFactory factory;
     private Topic selectedTopic;
@@ -23,7 +29,10 @@ public class Quiz {
     }
 
     public void start() {
+        textIO.getTextTerminal().getProperties().put("pane.title", "KG Quiz");
         textIO.getTextTerminal().setBookmark("empty");
+        textIO.getTextTerminal().print(ascii);
+        textIO.getTextTerminal().print("\n");
         this.selectedTopic = textIO.newEnumInputReader(Quiz.Topic.class)
                 .withAllValuesNumbered()
                 .read("Select Topic: ");
@@ -34,17 +43,18 @@ public class Quiz {
     }
 
     public void loop() {
-        while(true) {
+        while (true) {
             textIO.getTextTerminal().resetToBookmark("empty");
             textIO.getTextTerminal().print("Generating question. This might take a while ...");
             Question q = this.factory.createQuestion();
             textIO.getTextTerminal().resetToBookmark("empty");
             String answer = textIO.newStringInputReader().withNumberedPossibleValues(q.getPossibleAnswers())
                     .read(q.getPrompt());
-            if(answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
+            if (answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
                 textIO.getTextTerminal().println("Correct");
             } else {
-                textIO.getTextTerminal().println("False");
+                textIO.getTextTerminal().println("False\n");
+                textIO.getTextTerminal().print(String.format("The correct answer is:\n%s) %s\n", q.getCorrectAnswerIndex() + 1, q.getPossibleAnswers().get(q.getCorrectAnswerIndex())));
             }
             textIO.getTextTerminal().print("\nPress Enter key to continue ...");
             textIO.getTextTerminal().read(true);

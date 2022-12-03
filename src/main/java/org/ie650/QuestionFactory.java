@@ -26,7 +26,7 @@ public class QuestionFactory {
         this.topic = topic;
         switch (topic) {
             case BOOKS:
-                this.bookCandidates = new BookQuery(1000).execute();
+                this.bookCandidates = new BookQuery(200).execute();
                 break;
             case MOVIES:
                 this.movieCandidates = new MovieQuery(200).execute();
@@ -50,16 +50,18 @@ public class QuestionFactory {
     }
 
     public Question createRandomBookAction() {
-        int r = new Random().nextInt(3);
+        int r = new Random().nextInt(4);
         Book candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
         while (true) {
             try {
                 switch (r) {
                     case 0:
-                        return new BookAuthorQuestion(candidate, bookCandidates);
+                        return new BookGenreQuestion(candidate, bookCandidates);
                     case 1:
-                        return new BookYearQuestion(candidate);
+                        return new BookAuthorQuestion(candidate, bookCandidates);
                     case 2:
+                        return new BookYearQuestion(candidate);
+                    case 3:
                         return new BookCharacterQuestion(candidate, bookCandidates);
                     default:
                         return null;

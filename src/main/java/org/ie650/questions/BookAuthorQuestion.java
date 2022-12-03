@@ -20,7 +20,7 @@ public class BookAuthorQuestion extends Question{
             if(i < similarAuthors.size()) {
                 this.falseAnswers.add(similarAuthors.get(i).getName());
             } else {
-                this.falseAnswers.add(candidates.get(new Random().nextInt(candidates.size())).getName());
+                this.falseAnswers.add(candidates.get(new Random().nextInt(candidates.size())).getAuthorName());
             }
         }
     }

@@ -12,6 +12,7 @@ public class BookQuery extends AppQuery<Book> {
         addParameter("\\$AUTHOR_NAME", Book.AUTHOR_NAME);
         addParameter("\\$BOOK_AUTHOR", Book.AUTHOR);
         addParameter("\\$BOOK_DATE", Book.DATE);
+        addParameter("\\$GENRES", Book.GENRES);
         addParameter("\\$LIMIT", "" + limit);
         this.constructQuery("book_query");
     }

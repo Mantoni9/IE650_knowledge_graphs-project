@@ -23,6 +23,6 @@ public class MovieCostarQuestion extends Question {
 
     @Override
     public String getPrompt() {
-        return String.format("In which movies did %s and %s costar?", this.actorOneName, this.actorTwoName);
+        return String.format("In which movie did %s and %s costar?", this.actorOneName, this.actorTwoName);
     }
 }

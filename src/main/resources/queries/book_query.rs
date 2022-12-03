@@ -1,8 +1,8 @@
-SELECT ?$URI ?$BOOK_AUTHOR ?$AUTHOR_NAME ?$BOOK_NAME ?$BOOK_DATE ?countY ?maxY
+SELECT ?$URI ?$BOOK_AUTHOR ?$AUTHOR_NAME ?$BOOK_NAME ?$BOOK_DATE ?$GENRES ?countX ?countY
 WHERE
 {
   {
-    SELECT ?$URI (SAMPLE(?inner_author) AS ?$BOOK_AUTHOR) (SAMPLE(?inner_author_name) AS ?$AUTHOR_NAME) (SAMPLE(?inner_name) AS ?$BOOK_NAME) (SAMPLE(?inner_date) as ?$BOOK_DATE)
+    SELECT ?$URI (SAMPLE(?inner_author) AS ?$BOOK_AUTHOR) (SAMPLE(?inner_author_name) AS ?$AUTHOR_NAME) (SAMPLE(?inner_name) AS ?$BOOK_NAME) (SAMPLE(?inner_date) as ?$BOOK_DATE) (GROUP_CONCAT(DISTINCT(?inner_genre_label); separator=",") AS ?$GENRES)
     WHERE
       { ?$URI a dbo:Book ;
           dbp:name ?inner_name .
@@ -14,6 +14,12 @@ WHERE
           FILTER(bound(?dbp_inner_author) || bound(?dbo_inner_author))
           bind(COALESCE(?dbp_inner_author, ?dbo_inner_author) AS ?inner_author)
           bind(COALESCE(?dbp_inner_author_name, ?dbo_inner_author_name) AS ?inner_author_name)
+
+          OPTIONAL {
+            ?$URI dbp:genre ?inner_genre .
+            ?inner_genre rdfs:label ?inner_genre_label
+            FILTER (langMatches( lang(?inner_genre_label), "en" ) )
+          }
 
           OPTIONAL { ?$URI dbp:publicationDate ?publicationDate . FILTER( isLiteral(?publicationDate) && datatype(?publicationDate) = xsd:date)}
           OPTIONAL { ?$URI dbp:releaseDate ?releaseDate . FILTER( isLiteral(?releaseDate ) && (datatype(?releaseDate ) = xsd:date) || (datatype(?releaseDate ) = xsd:integer))}
