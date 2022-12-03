@@ -1,7 +1,7 @@
 SELECT ?$URI SAMPLE(?$BUDGET) (GROUP_CONCAT(DISTINCT ?director_name; separator=",") AS ?$DIRECTORS) ?$GROSS ?$NAME (GROUP_CONCAT(?actor_name; separator=",") AS ?$ACTORS) ?prefixedGross
 WHERE {
   ?$URI a dbo:Film .
-  ?$URI dbo:$BUDGET ?$BUDGET .
+  ?$URI dbo:budget ?$BUDGET .
   ?$URI dbo:director ?director .
   ?director dbp:name ?director_name .
   ?$URI dbo:$GROSS ?$GROSS .

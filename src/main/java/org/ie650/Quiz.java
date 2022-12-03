@@ -9,6 +9,8 @@ public class Quiz {
     public enum Topic {
         BOOKS,
         MOVIES,
+        SONGS,
+        GEOGRAPHY,
     }
 
     private TextIO textIO;

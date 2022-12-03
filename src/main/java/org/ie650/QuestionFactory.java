@@ -3,9 +3,11 @@ package org.ie650;
 import org.ie650.queries.BookQuery;
 import org.ie650.queries.MovieCostarQuery;
 import org.ie650.queries.MovieQuery;
+import org.ie650.queries.SongQuery;
 import org.ie650.queryresults.Book;
 import org.ie650.queryresults.Costar;
 import org.ie650.queryresults.Movie;
+import org.ie650.queryresults.Song;
 import org.ie650.questions.*;
 
 import java.util.List;
@@ -18,6 +20,8 @@ public class QuestionFactory {
     private List<Movie> movieCandidates;
     private List<Costar> costarCandidates;
 
+    private List<Song> songCandidates;
+
     public void setTopic(Quiz.Topic topic) {
         this.topic = topic;
         switch (topic) {
@@ -27,6 +31,9 @@ public class QuestionFactory {
             case MOVIES:
                 this.movieCandidates = new MovieQuery(200).execute();
                 this.costarCandidates = new MovieCostarQuery().execute();
+                break;
+            case SONGS:
+                this.songCandidates = new SongQuery(200).execute();
                 break;
         }
     }
@@ -77,6 +84,19 @@ public class QuestionFactory {
                 return new MovieGrossQuestion(candidate, candidateTwo);
             case 2:
                 return new MovieDirectorQuestion(candidate, movieCandidates);
+            default:
+                return null;
+        }
+    }
+
+    public Question createRandomSongQuestion() {
+        int r = new Random().nextInt(3);
+        Song candidate = songCandidates.get(new Random().nextInt(songCandidates.size()));
+        switch (r) {
+            case 0:
+                return new SongArtistQuestion(candidate, songCandidates);
+            case 1:
+                return new SongYearQuestion(candidate);
             default:
                 return null;
         }
