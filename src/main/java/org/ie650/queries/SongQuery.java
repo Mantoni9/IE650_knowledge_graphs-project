@@ -8,8 +8,8 @@ public class SongQuery extends AppQuery<Song> {
     public SongQuery(int limit) {
         super();
         addParameter("\\$URI", Song.URI);
-        addParameter("\\$BOOK_NAME", Song.NAME);
-        addParameter("\\$ARTIST_NAME", Song.ARTIST);
+        addParameter("\\$SONG_NAME", Song.NAME);
+        addParameter("\\$ARTIST_NAME", Song.ARTIST_NAME);
         addParameter("\\$RELEASE_DATE", Song.RELEASE_DATE);
         addParameter("\\$LIMIT", "" + limit);
         this.constructQuery("song_query");

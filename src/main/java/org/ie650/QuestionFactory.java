@@ -44,6 +44,8 @@ public class QuestionFactory {
                 return createRandomBookAction();
             case MOVIES:
                 return createRandomMovieQuestion();
+            case SONGS:
+                return createRandomSongQuestion();
             default:
                 return null;
         }
@@ -92,7 +94,7 @@ public class QuestionFactory {
     }
 
     public Question createRandomSongQuestion() {
-        int r = new Random().nextInt(3);
+        int r = new Random().nextInt(2);
         Song candidate = songCandidates.get(new Random().nextInt(songCandidates.size()));
         switch (r) {
             case 0:

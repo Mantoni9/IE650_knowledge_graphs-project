@@ -8,7 +8,6 @@ public class Song extends QueryResult{
     public static String URI = "uri";
 
     public static String NAME = "name";
-    public static String ARTIST = "artist";
     public static String ARTIST_NAME = "artistName";
     public static String RELEASE_DATE = "releaseDate";
 
@@ -28,7 +27,6 @@ public class Song extends QueryResult{
     public String getArtistName() {
         return this.sol.getLiteral(ARTIST_NAME).getLexicalForm();
     }
-    public String getArtist() {return this.sol.getLiteral(ARTIST).getLexicalForm();}
 
     public String getReleaseYear() {
         if(this.sol.getLiteral(RELEASE_DATE).getDatatype() == XSDDatatype.XSDdate) {

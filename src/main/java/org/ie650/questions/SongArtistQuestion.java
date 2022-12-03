@@ -14,8 +14,8 @@ public class SongArtistQuestion extends Question {
     public SongArtistQuestion(Song song, List<Song> candidates) {
         this.song = song;
         this.correctAnswerIndex = new Random().nextInt(4);
-        this.correctAnswer = song.getArtist();
-        List<Artist> similarArtists = new SongArtistQuery(song.getArtist()).execute();
+        this.correctAnswer = song.getArtistName();
+        List<Artist> similarArtists = new SongArtistQuery(song.getUri()).execute();
         for (int i = 0; i < 3; i++) {
             if (i < similarArtists.size()) {
                 this.falseAnswers.add(similarArtists.get(i).getName());
