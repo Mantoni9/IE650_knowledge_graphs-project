@@ -1,13 +1,7 @@
 package org.ie650;
 
-import org.ie650.queries.BookQuery;
-import org.ie650.queries.MovieCostarQuery;
-import org.ie650.queries.MovieQuery;
-import org.ie650.queries.SongQuery;
-import org.ie650.queryresults.Book;
-import org.ie650.queryresults.Costar;
-import org.ie650.queryresults.Movie;
-import org.ie650.queryresults.Song;
+import org.ie650.queries.*;
+import org.ie650.queryresults.*;
 import org.ie650.questions.*;
 
 import java.util.List;
@@ -19,8 +13,8 @@ public class QuestionFactory {
     private List<Book> bookCandidates;
     private List<Movie> movieCandidates;
     private List<Costar> costarCandidates;
-
     private List<Song> songCandidates;
+    private List<Country> countryCandidates;
 
     public void setTopic(Quiz.Topic topic) {
         this.topic = topic;
@@ -35,6 +29,8 @@ public class QuestionFactory {
             case SONGS:
                 this.songCandidates = new SongQuery(200).execute();
                 break;
+            case GEOGRAPHY:
+                this.countryCandidates = new CountryQuery().execute(AppQuery.WIKIDATA_ENDPOINT);
         }
     }
 
@@ -46,6 +42,8 @@ public class QuestionFactory {
                 return createRandomMovieQuestion();
             case SONGS:
                 return createRandomSongQuestion();
+            case GEOGRAPHY:
+                return createRandomGeographyQuestion();
             default:
                 return null;
         }
@@ -103,6 +101,31 @@ public class QuestionFactory {
                 return new SongYearQuestion(candidate);
             default:
                 return null;
+        }
+    }
+
+    public Question createRandomGeographyQuestion() {
+        int r = new Random().nextInt(5);
+        Country country = countryCandidates.get(new Random().nextInt(countryCandidates.size()));
+        while (true) {
+            try {
+                switch (r) {
+                    case 0:
+                        return new CountryPopulationQuestion(countryCandidates);
+                    case 1:
+                        return new CountryHeadOfStateQuestion(country, countryCandidates);
+                    case 2:
+                        return new CountryCapitalQuestion(country, countryCandidates);
+                    case 3:
+                        return new CountryAreaQuestion(countryCandidates);
+                    case 4:
+                        return new CountryHDIQuestion(countryCandidates);
+                    default:
+                        return null;
+                }
+            } catch (QuestionException e) {
+                country = countryCandidates.get(new Random().nextInt(countryCandidates.size()));
+            }
         }
     }
 
