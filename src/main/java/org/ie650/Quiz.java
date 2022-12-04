@@ -29,6 +29,7 @@ public class Quiz {
     }
 
     public void start() {
+        textIO.getTextTerminal().resetToBookmark("empty");
         textIO.getTextTerminal().getProperties().put("pane.title", "KG Quiz");
         textIO.getTextTerminal().setBookmark("empty");
         textIO.getTextTerminal().print(ascii);
@@ -43,21 +44,31 @@ public class Quiz {
     }
 
     public void loop() {
-        while (true) {
+        int score = 0;
+        int limit = 10;
+        int counter = 0;
+        while (counter < limit) {
             textIO.getTextTerminal().resetToBookmark("empty");
             textIO.getTextTerminal().print("Generating question. This might take a while ...");
             Question q = this.factory.createQuestion();
             textIO.getTextTerminal().resetToBookmark("empty");
             String answer = textIO.newStringInputReader().withNumberedPossibleValues(q.getPossibleAnswers())
                     .read(q.getPrompt());
-            if (answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
-                textIO.getTextTerminal().println("Correct");
-            } else {
-                textIO.getTextTerminal().println("False\n");
-                textIO.getTextTerminal().print(String.format("The correct answer is:\n%s) %s\n", q.getCorrectAnswerIndex() + 1, q.getPossibleAnswers().get(q.getCorrectAnswerIndex())));
-            }
+                if (answer.equals(q.getPossibleAnswers().get(q.getCorrectAnswerIndex()))) {
+                    textIO.getTextTerminal().println("Correct");
+                    score++;
+                } else {
+                    textIO.getTextTerminal().println("False\n");
+                    textIO.getTextTerminal().print(String.format("The correct answer is:\n%s) %s\n", q.getCorrectAnswerIndex() + 1, q.getPossibleAnswers().get(q.getCorrectAnswerIndex())));
+                }
             textIO.getTextTerminal().print("\nPress Enter key to continue ...");
             textIO.getTextTerminal().read(true);
+            counter++;
         }
+        textIO.getTextTerminal().resetToBookmark("empty");
+        textIO.getTextTerminal().println("Congrats you finished the Quiz. \n You have scored: "+ score +" points out of "+ limit +" possible points.");
+        textIO.getTextTerminal().print("\nPress Enter key to continue ...");
+        textIO.getTextTerminal().read(true);
+        start();
     }
 }

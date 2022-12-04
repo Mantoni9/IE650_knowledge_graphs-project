@@ -18,13 +18,16 @@ public class SongYearQuestion extends Question {
         for (int i = 0; i < 3; i++) {
             switch (i) {
                 case 0:
-                    diff = new Random().nextInt(75, 100);
+                    diff = new Random().nextInt(1 , 2);
                     break;
                 case 1:
-                    diff = new Random().nextInt(25, 50);
+                    diff = new Random().nextInt(2, 3);
                     break;
                 case 2:
-                    diff = new Random().nextInt(10, 15);
+                    diff = new Random().nextInt(3, 4);
+                    break;
+                default:
+                    diff = new Random().nextInt(1 , 2);
                     break;
             }
             if (Integer.parseInt(this.correctAnswer + diff) > 2022) {
