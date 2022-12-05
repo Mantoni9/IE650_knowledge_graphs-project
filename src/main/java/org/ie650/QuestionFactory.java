@@ -52,6 +52,7 @@ public class QuestionFactory {
     public Question createRandomBookAction() {
         int r = new Random().nextInt(4);
         Book candidate = bookCandidates.get(new Random().nextInt(bookCandidates.size()));
+        r=1;
         while (true) {
             try {
                 switch (r) {
