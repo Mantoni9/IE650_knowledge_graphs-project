@@ -20,7 +20,7 @@ public class SongArtistQuestion extends Question {
             if (i < similarArtists.size()) {
                 this.falseAnswers.add(similarArtists.get(i).getName());
             } else {
-                this.falseAnswers.add(candidates.get(new Random().nextInt(candidates.size())).getName());
+                this.falseAnswers.add(candidates.get(new Random().nextInt(candidates.size())).getArtistName());
             }
         }
     }
